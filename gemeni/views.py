@@ -1,7 +1,8 @@
 from django.shortcuts import render
 from django.http import JsonResponse
 import google.generativeai as genai
-
+from rest_framework.decorators import api_view
+import json
 # Create your views here
 
 
@@ -13,7 +14,7 @@ generation_config = {
   "top_p": 0.95,
   "top_k": 0,
   "max_output_tokens": 8192,
-  "response_mime_type": "application/json",
+
 }
 
 safety_settings = [
@@ -38,17 +39,22 @@ safety_settings = [
 convo = None
 
 
-def response(requests ,message):
-
+@api_view(['POST'])
+def response(requests ):
+    response = 'defualt response'
     model = genai.GenerativeModel(model_name="gemini-1.5-pro-latest",
                                   generation_config=generation_config,
                                   safety_settings=safety_settings)
-    message = message.replace('_',' ')
-    print(message)
-    convo = model.start_chat()
-    convo.send_message(message)
+    data = requests.data
+    print(data , "===================")
+    print(type(data))
+    if data['ask']:
+        convo = model.start_chat()
+        convo.send_message(data['ask'])
+        response = convo.last.text
     context = {
-        'response': convo.last.text
+        'response':response
+
     }
     return JsonResponse(context, safe=False)
 
