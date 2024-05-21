@@ -2,6 +2,7 @@ from django.shortcuts import render
 from django.http import JsonResponse
 import google.generativeai as genai
 from rest_framework.decorators import api_view
+from datetime import datetime
 import json
 # Create your views here
 
@@ -41,6 +42,7 @@ convo = None
 
 @api_view(['POST'])
 def response(requests ):
+    start_time = datetime.now()
     response = 'defualt response'
     model = genai.GenerativeModel(model_name="gemini-1.5-pro-latest",
                                   generation_config=generation_config,
@@ -52,9 +54,10 @@ def response(requests ):
         convo = model.start_chat()
         convo.send_message(data['ask'])
         response = convo.last.text
+    diff = datetime.now()-start_time
     context = {
-        'response':response
-
+        'response':response ,
+        'response_time':diff.total_seconds()
     }
     return JsonResponse(context, safe=False)
 
