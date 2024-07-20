@@ -83,7 +83,7 @@ def response(requests):
                                   generation_config=generation_config,
                                   safety_settings=safety_settings)
     data = requests.data
-    if data['ask'].find('fetch') != -1:
+    if data['ask'].find('search') != -1:
         fbd.child("bifrost").child('bifrost_input').set(data['ask'])
         res = check_condition()
 
