@@ -5,3 +5,4 @@ from gemeni import views
 urlpatterns = [
     path('' , views.response),
 ]
+
