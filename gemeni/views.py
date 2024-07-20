@@ -71,6 +71,7 @@ def response(requests):
                     'response_time': 0
                 }
                 print("returing data")
+                fbd.child("bifrost").child('bifrost_trigger').set(0)
                 return context
 
     if requests.method == 'GET':
