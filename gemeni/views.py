@@ -4,11 +4,11 @@ import time
 from django.shortcuts import render
 from django.http import JsonResponse
 import google.generativeai as genai
-from rest_framework.decorators import api_view
+from rest_framework.decorators import api_view ,permission_classes
 from datetime import datetime
 import pyrebase
 import json
-
+from rest_framework import permissions
 # Create your views here
 
 
@@ -177,3 +177,10 @@ def response(requests):
         }
         return JsonResponse(context, safe=False)
 
+
+@api_view(['GET','POST'])
+@permission_classes([permissions.IsAuthenticated])
+def dwnld_synchat(requests):
+    # firebase = pyrebase.initialize_app(firebaseConfig)
+    # fbd = firebase.database()
+    return JsonResponse({"status" : "success"} , safe=False)

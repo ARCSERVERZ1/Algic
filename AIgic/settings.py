@@ -55,6 +55,17 @@ MIDDLEWARE = [
 ]
 
 
+REST_FRAMEWORK = {
+    'DEFAULT_AUTHENTICATION_CLASSES': [
+        'rest_framework_simplejwt.authentication.JWTAuthentication',
+    ],
+}
+
+
+
+
+
+
 CORS_ORIGN_ALLOW_ALL = True
 
 CORS_ORIGIN_WHITELIST = (
